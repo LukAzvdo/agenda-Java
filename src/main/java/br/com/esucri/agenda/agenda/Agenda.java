@@ -17,15 +17,17 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 @Entity
 @Table(name = "agendas", schema = "public")
+@SequenceGenerator(name = "AGENDA_SEQ", sequenceName = "AGENDA_SEQ")
 public class Agenda implements Serializable {
 
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "AGENDA_SEQ")
     private Long id;
     
     @Column(nullable = false, unique = true)

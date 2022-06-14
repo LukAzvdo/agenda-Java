@@ -8,16 +8,18 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 @Entity
 @Table(name = "pacientes", schema = "public")
+@SequenceGenerator(name = "PACIENTE_SEQ", sequenceName = "PACIENTE_SEQ")
 public class Paciente implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "PACIENTE_SEQ")
     private Long id;
     
     @Column(name = "NOME",length = 100,nullable = false)

@@ -13,14 +13,16 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 @Entity
 @Table(name = "medicos", schema = "public")
+@SequenceGenerator(name = "MEDICO_SEQ", sequenceName = "MEDICO_SEQ")
 public class Medico implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "MEDICO_SEQ")
     private Long id;
     
     @Column(name = "NOME",length = 100,nullable = false)
