@@ -1,3 +1,6 @@
+/*
+ */
+
 package br.com.esucri.agenda.paciente;
 
 import java.util.List;

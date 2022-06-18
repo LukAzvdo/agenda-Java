@@ -48,6 +48,6 @@ public class Procedimento implements Serializable {
         return descricao;
     }
     public void setDescricao(String descricao) {
-        this.descricao = descricao.trim().isEmpty() ? "PROCEDIMENTO PADRÃO" :descricao.toUpperCase();
+        this.descricao = descricao.trim().isEmpty() ? "PROCEDIMENTO" :descricao.toUpperCase();
     }
 }

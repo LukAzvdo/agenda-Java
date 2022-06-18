@@ -1,8 +1,9 @@
+/*
+ */
 package br.com.esucri.agenda.paciente;
 
 import java.io.Serializable;
 import java.time.LocalDate;
-import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -10,18 +11,17 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 
 @Entity
 @Table(name = "pacientes", schema = "public")
 @SequenceGenerator(name = "PACIENTE_SEQ", sequenceName = "PACIENTE_SEQ")
 public class Paciente implements Serializable {
-
+    
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "PACIENTE_SEQ")
+     @Column(name = "ID", nullable = false)
     private Long id;
-    
+
     @Column(name = "NOME",length = 100,nullable = false)
     private String nome;
     
@@ -52,7 +52,7 @@ public class Paciente implements Serializable {
         return nome;
     }
     public void setNome(String nome) {
-        this.nome = nome.trim().isEmpty() ? "PACIENTE":nome.toUpperCase();
+        this.nome = nome.trim().isEmpty() ? "PACIENTE" :nome.toUpperCase();
     }
     
     public String getCpf() {
@@ -76,11 +76,10 @@ public class Paciente implements Serializable {
         this.telefone = telefone.trim().isEmpty() ? "(00)00000-0000" : telefone;
     }
     
-    public String getmail() {
+    public String getEmail() {
         return email;
     }
     public void setEmail(String email) {
-        this.email = email.trim().isEmpty() ? "EMAIL":email.toUpperCase();
+        this.email = email.trim().isEmpty() ? "EMAIL@MAIL.COM":email.toUpperCase();
     }
-    
 }

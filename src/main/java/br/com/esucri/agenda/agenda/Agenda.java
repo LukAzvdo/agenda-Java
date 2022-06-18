@@ -4,6 +4,7 @@ package br.com.esucri.agenda.agenda;
 
 import br.com.esucri.agenda.medico.Medico;
 import br.com.esucri.agenda.paciente.Paciente;
+import br.com.esucri.agenda.procedimento.Procedimento;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.List;
@@ -19,6 +20,8 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import org.hibernate.annotations.FetchMode;
+import org.hibernate.annotations.Fetch;
 
 @Entity
 @Table(name = "agendas", schema = "public")
@@ -37,7 +40,8 @@ public class Agenda implements Serializable {
     private LocalDate data;
     
     
-    @ManyToMany(fetch = FetchType.EAGER)    
+    @ManyToMany(fetch = FetchType.EAGER)
+    @Fetch(value = FetchMode.SUBSELECT)
     @JoinTable(
         name="agendas_pacientes",
         joinColumns = @JoinColumn(name = "id_agenda"),
@@ -46,8 +50,9 @@ public class Agenda implements Serializable {
         inverseForeignKey = @ForeignKey(name = "fk_paciente")
     )
     private List<Paciente> pacientes;
-/*
-    @ManyToMany(fetch = FetchType.EAGER)    
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    @Fetch(value = FetchMode.SUBSELECT)
     @JoinTable(
         name="agendas_medicos",
         joinColumns = @JoinColumn(name = "id_agenda"),
@@ -56,8 +61,9 @@ public class Agenda implements Serializable {
         inverseForeignKey = @ForeignKey(name = "fk_medico")
     )
     private List<Medico> medicos;
-
-    @ManyToMany(fetch = FetchType.EAGER)    
+    
+    @ManyToMany(fetch = FetchType.EAGER)  
+    @Fetch(value = FetchMode.SUBSELECT)
     @JoinTable(
         name="agendas_procedimentos",
         joinColumns = @JoinColumn(name = "id_agenda"),
@@ -66,7 +72,7 @@ public class Agenda implements Serializable {
         inverseForeignKey = @ForeignKey(name = "fk_procedimento")
     )
     private List<Procedimento> procedimentos;
-*/
+    
     public Agenda() {
     } 
     
@@ -97,7 +103,7 @@ public class Agenda implements Serializable {
     public void setPacientes(List<Paciente> pacientes) {
         this.pacientes = pacientes;
     }
-/*
+
     public List<Medico> getMedicos() {
         return medicos;
     }
@@ -111,5 +117,4 @@ public class Agenda implements Serializable {
     public void setProcedimentos(List<Procedimento> procedimentos) {
         this.procedimentos = procedimentos;
     }
-*/
 }
