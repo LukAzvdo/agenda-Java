@@ -2,11 +2,15 @@
  */
 package br.com.esucri.agenda.agenda;
 
+import java.util.Date;
 import br.com.esucri.agenda.medico.Medico;
 import br.com.esucri.agenda.paciente.Paciente;
 import br.com.esucri.agenda.procedimento.Procedimento;
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -20,6 +24,8 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import org.hibernate.annotations.FetchMode;
 import org.hibernate.annotations.Fetch;
 
@@ -28,7 +34,6 @@ import org.hibernate.annotations.Fetch;
 @SequenceGenerator(name = "AGENDA_SEQ", sequenceName = "AGENDA_SEQ")
 public class Agenda implements Serializable {
 
-
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "AGENDA_SEQ")
     private Long id;
@@ -36,21 +41,10 @@ public class Agenda implements Serializable {
     @Column(nullable = false, unique = true)
     private String descricao;
     
+    //@Temporal(TemporalType.TIMESTAMP)
     @Column(name = "DATA",nullable = false)
-    private LocalDate data;
+    private OffsetDateTime data;
     
-    
-    @ManyToMany(fetch = FetchType.EAGER)
-    @Fetch(value = FetchMode.SUBSELECT)
-    @JoinTable(
-        name="agendas_pacientes",
-        joinColumns = @JoinColumn(name = "id_agenda"),
-        inverseJoinColumns = @JoinColumn(name = "id_paciente"),
-        foreignKey = @ForeignKey(name = "fk_agenda"),
-        inverseForeignKey = @ForeignKey(name = "fk_paciente")
-    )
-    private List<Paciente> pacientes;
-
     @ManyToMany(fetch = FetchType.EAGER)
     @Fetch(value = FetchMode.SUBSELECT)
     @JoinTable(
@@ -61,6 +55,17 @@ public class Agenda implements Serializable {
         inverseForeignKey = @ForeignKey(name = "fk_medico")
     )
     private List<Medico> medicos;
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    @Fetch(value = FetchMode.SUBSELECT)
+    @JoinTable(
+        name="agendas_pacientes",
+        joinColumns = @JoinColumn(name = "id_agenda"),
+        inverseJoinColumns = @JoinColumn(name = "id_paciente"),
+        foreignKey = @ForeignKey(name = "fk_agenda"),
+        inverseForeignKey = @ForeignKey(name = "fk_paciente")
+    )
+    private List<Paciente> pacientes;
     
     @ManyToMany(fetch = FetchType.EAGER)  
     @Fetch(value = FetchMode.SUBSELECT)
@@ -90,11 +95,18 @@ public class Agenda implements Serializable {
         this.descricao = descricao.trim().isEmpty() ? "AGENDA":descricao.toUpperCase();
     }
     
-    public LocalDate getData() {
+    public OffsetDateTime getData() {
         return data;
     }
-    public void setData(LocalDate data) {
+    public void setData(OffsetDateTime data) {
         this.data = data;
+    }
+    
+    public List<Medico> getMedicos() {
+        return medicos;
+    }
+    public void setMedicos(List<Medico> medicos) {
+        this.medicos = medicos;
     }
     
     public List<Paciente> getPacientes() {
@@ -102,13 +114,6 @@ public class Agenda implements Serializable {
     }
     public void setPacientes(List<Paciente> pacientes) {
         this.pacientes = pacientes;
-    }
-
-    public List<Medico> getMedicos() {
-        return medicos;
-    }
-    public void setMedicos(List<Medico> medicos) {
-        this.medicos = medicos;
     }
 
     public List<Procedimento> getProcedimentos() {

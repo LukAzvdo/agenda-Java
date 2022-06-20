@@ -30,8 +30,6 @@ public class AgendaService {
             throw new NotFoundException("Agenda com o id " + id + " não encontrada");
         }
         return agenda;
-
-        
     }
 
     public Agenda add(Agenda agenda) {
@@ -65,8 +63,8 @@ public class AgendaService {
     }
 
     private void validaNome(Agenda agenda) {
-        if (agenda.getDescricao().length() < 3) {
-            throw new BadRequestException("O nome da agenda não pode conter menos que três caracteres");
+        if (agenda.getDescricao().length()< 5) {
+            throw new BadRequestException("O nome da agenda não pode conter menos que cinco caracteres");
         }
     }
 

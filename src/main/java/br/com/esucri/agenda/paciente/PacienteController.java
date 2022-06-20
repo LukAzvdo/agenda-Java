@@ -34,36 +34,25 @@ public class PacienteController {
     @GET
     @Path("{id}")
     public Paciente findById(@PathParam("id") Long id) {
-        Paciente paciente = this.pacienteService.findById(id);
-        if (paciente == null) {
-            throw new WebApplicationException("Paciente não encontrado", Response.Status.NOT_FOUND);
-        }
-        return paciente;
+        return this.pacienteService.findById(id);
     }
-
+    
     @POST
     public Paciente add(Paciente paciente) {
         return this.pacienteService.add(paciente);
     }
 
-    @DELETE
+    @PUT
+    @Path("{id}") 
+    public Paciente update(@PathParam("id") Long id, Paciente paciente) {
+        paciente.setId(id);
+        return this.pacienteService.update(paciente);        
+    }
+    
+    @DELETE    
     @Path("{id}")
     public void remove(@PathParam("id") Long id) {
-        Paciente paciente = this.findById(id);
-        if (paciente == null) {
-            throw new NotFoundException("Paciente não encontrado");
-        }
-        this.pacienteService.remove(paciente);
+        this.pacienteService.remove(id);
     }
 
-    @PUT
-    @Path("{id}")
-    public Paciente update(@PathParam("id") Long id, Paciente pacienteAtualizado) {
-        Paciente pacienteEncontrado = this.findById(id);
-        if (pacienteEncontrado == null) {
-            throw new NotFoundException("Paciente não encontrado");
-        }
-        pacienteAtualizado.setId(id);
-        return this.pacienteService.update(pacienteAtualizado);
-    }
 }
