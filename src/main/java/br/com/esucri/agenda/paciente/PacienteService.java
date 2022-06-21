@@ -18,7 +18,7 @@ public class PacienteService {
 
     public List<Paciente> findAll() {
         return entityManager
-                .createQuery("SELECT p FROM Paciente p", Paciente.class) // JPQL
+                .createQuery("SELECT p FROM Paciente p")
                 .getResultList();
     }
 
@@ -32,7 +32,7 @@ public class PacienteService {
 
     public Paciente add(Paciente paciente) {
         validaNome(paciente);
-        validaExistenciaPaciente(paciente);
+        validaExistenciaCPF(paciente);
         entityManager.persist(paciente);
         return paciente;
     }
@@ -54,14 +54,14 @@ public class PacienteService {
         }
     }
 
-    private void validaExistenciaPaciente(Paciente paciente) {
+    private void validaExistenciaCPF(Paciente paciente) {
         List<Paciente> resultList = entityManager
-                .createQuery("SELECT p FROM Paciente p WHERE LOWER(p.nome) = :nome", Paciente.class)
-                .setParameter("nome", paciente.getNome().toLowerCase())
+                .createQuery("SELECT p FROM Paciente p WHERE (p.cpf) = :cpf", Paciente.class)
+                .setParameter("cpf", paciente.getCpf())
                 .getResultList();
         
         if (resultList != null && !resultList.isEmpty()) {
-            throw new BadRequestException("O paciente já está cadastrado em nossa base");
+            throw new BadRequestException("O CPF já está cadastrado em nossa base");
         }
     }
     

@@ -4,13 +4,13 @@
 package Enums;
 
 public enum Especialidades {
-/*
+
     clinica_medica,
     ortopedia,
     ginecologia,
     pediatria,
     outros
-*/
+/*
     clinica_medica("Clinica Medica"),
     ortopedia("Ortopedia"),
     ginecologia("Ginecologia"),
@@ -27,4 +27,5 @@ public enum Especialidades {
     public String toString() {
         return descricao;
     }
+*/
 }

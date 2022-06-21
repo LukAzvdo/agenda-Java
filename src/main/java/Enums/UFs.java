@@ -4,7 +4,7 @@
 package Enums;
 
 public enum UFs {
- /*   
+ 
     AC,
     AL,
     AP,
@@ -32,7 +32,7 @@ public enum UFs {
     SP,
     SE,
     TO
-*/
+/*
     AC("Acre"),
     AL("Alagoas"),
     AP("Amapá"),
@@ -71,4 +71,5 @@ public enum UFs {
     public String toString() {
         return descricao;
     }
+*/
 }

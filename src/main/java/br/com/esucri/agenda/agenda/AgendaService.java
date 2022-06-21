@@ -2,6 +2,7 @@
  */
 package br.com.esucri.agenda.agenda;
 
+import br.com.esucri.agenda.medico.Medico;
 import br.com.esucri.agenda.paciente.Paciente;
 import java.util.List;
 import javax.ejb.Stateless;
@@ -34,6 +35,7 @@ public class AgendaService {
 
     public Agenda add(Agenda agenda) {
         validaPaciente(agenda);
+        validaMedico(agenda);
         validaNome(agenda);
         validaExistenciaAgenda(agenda);
         entityManager.persist(agenda);
@@ -44,6 +46,7 @@ public class AgendaService {
         Long id = agenda.getId();
         findById(id);        
         validaPaciente(agenda);
+        validaMedico(agenda);
         validaNome(agenda);   
         return entityManager.merge(agenda);
     }
@@ -62,6 +65,16 @@ public class AgendaService {
         }
     }
 
+    private void validaMedico(Agenda agenda) {
+        List<Medico> medicos = agenda.getMedicos();
+        if (medicos != null && medicos.size() > 1) {
+            throw new WebApplicationException(
+                    "Uma agenda não pode conter mais que um médico",
+                    Response.Status.REQUEST_ENTITY_TOO_LARGE
+            );
+        }
+    }
+    
     private void validaNome(Agenda agenda) {
         if (agenda.getDescricao().length()< 5) {
             throw new BadRequestException("O nome da agenda não pode conter menos que cinco caracteres");
